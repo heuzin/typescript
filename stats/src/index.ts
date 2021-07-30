@@ -1,27 +1,14 @@
 import { MatchReader } from './MatchReader'
-import { CsvFileReader } from './CsvFileReader'
-import { MatchResult } from './MatchResult'
+import { WinsAnalysis } from './analyzers/WinsAnalysis'
+import { Summary } from './Summary'
+import { HtmlReports } from './reportTargets/HtmlReport'
 
-// const reader = new MatchReader('football.csv')
-// reader.read()
-const csvFileReader = new CsvFileReader('football.csv')
+const matchReader = MatchReader.fromCsv('football.csv')
+const summaryStatic = Summary.winsAnalysisWithHtmlReport('Man United')
 
-// Create an object that satisfies the 'DataReader' interface
-// Create an nstance of MatchReader and pass ni somtehing satisfying the 'DataReader' interface
-const matchReader = new MatchReader(csvFileReader)
 matchReader.load()
+summaryStatic.buildAndPrintReport(matchReader.matches)
 
-let manUnitedWins = 0
-
-for (let match of matchReader.matches) {
-  if (match[1] === 'Man United' && match[5] === MatchResult.HomeWin) {
-    manUnitedWins++
-  } else if (match[2] === 'Man United' && match[5] === MatchResult.AwayWin) {
-    manUnitedWins++
-  }
-}
-
-console.log(`Man United won ${manUnitedWins} games`)
 
 // Inheritance: IS A relationship
 // Compositoin: HAS A relationship
